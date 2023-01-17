@@ -1,0 +1,15 @@
+{
+    "name": "abicia",
+    "packageManager": "yarn@4.0.0-rc.35",
+    "dependencies": {
+        "discord.js": "^14.7.1",
+        "dotenv": "^16.0.3"
+    },
+    "devDependencies": {
+        "eslint": "^8.32.0"
+    },
+    "scripts": {
+        "start": "node --require dotenv/config ./index.js",
+        "deploy": "node --require dotenv/config ./deploy-commands.js"
+    }
+}
