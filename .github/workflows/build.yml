@@ -27,20 +27,20 @@ jobs:
                 node-version: [16.x, 18.x]
 
     steps:
-        - uses: actions/checkout@v3
-        - name: Copy .env.test.local
-          run: cp .env.test .env
-        - name: Use Node.js ${{ matrix.node-version }}
-          uses: actions/setup-node@v3
-          with:
-              node-version: ${{ matrix.node-version }}
+    - uses: actions/checkout@v3
+    - name: Copy .env.test.local
+      run: cp .env.test .env
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+          node-version: ${{ matrix.node-version }}
 
-        - name: Run install
-          uses: borales/actions-yarn@v4
-          with:
-              cmd: install
+    - name: Run install
+      uses: borales/actions-yarn@v4
+      with:
+          cmd: install
 
-        - name: Init database
-          uses: borales/actions-yarn@v4
-          with:
-              cmd: update-db
+    - name: Init database
+      uses: borales/actions-yarn@v4
+      with:
+          cmd: update-db
