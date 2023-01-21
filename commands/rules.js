@@ -52,30 +52,32 @@ module.exports = {
             ,
         ];
 
-        let settings = await Settings.findOne({where: {name: 'rules_message_id'}});
+        let rulesMessageSettings = await Settings.findOne({where: {name: 'rules_message_id'}});
+        const channelsCollection = interaction.client.channels;
+        const rulesChannel       = await channelsCollection.fetch(interaction.guild.rulesChannelId);
 
-        if (settings) {
-            const message = await interaction.client.channels.cache.get(interaction.guild.rulesChannelId).messages.fetch(settings.value);
-
+        if (rulesMessageSettings) {
+            const message              = await rulesChannel.messages.fetch(rulesMessageSettings.value);
+            const announcementsChannel = await channelsCollection.fetch(process.env.ANNOUNCEMENTS_CHANNEL_ID);
 
             await message.edit({embeds: rulesEmbeds})
-                .then(await interaction.client.channels.cache.get(process.env.ANNOUNCEMENTS_CHANNEL_ID).send(
+                .then(announcementsChannel.send(
                     '**:bookmark_tabs: Règles**\r\n\r\n' +
                     'Une nouvelle version des <#' + interaction.guild.rulesChannelId + '> vient d\'être publiée, n\'hésitez pas à en prendre connaissance, merci ! :nerd:'
                 ))
-                .then(await interaction.reply('Règles éditées : <https://discord.com/channels/' + message.guild.id + '/' + message.channel.id + '/' + message.id + '>.'))
+                .then(await interaction.reply('Règles éditées : <https://discord.com/channels/' + process.env.GUILD_ID + '/' + rulesChannel.id + '/' + message.id + '>.'))
             ;
         } else {
-            const message = await interaction.client.channels.cache.get(interaction.guild.rulesChannelId).send({
+            const message = rulesChannel.send({
                 embeds: rulesEmbeds,
             });
 
-            settings = await Settings.create({
+            rulesMessageSettings = await Settings.create({
                 name: 'rules_message_id',
                 value: message.id,
             })
                 .then(message.react(process.env.CHECK_EMOJI))
-                .then(interaction.reply('Règles publiées : <https://discord.com/channels/' + message.guild.id + '/' + message.channel.id + '/' + message.id + '>.'))
+                .then(interaction.reply('Règles publiées : <https://discord.com/channels/' + process.env.GUILD_ID + '/' + rulesChannel.id + '/' + message.id + '>.'))
             ;
         }
     },
