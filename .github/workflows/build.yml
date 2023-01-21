@@ -15,9 +15,9 @@ jobs:
         ports:
           - 3306:3306
         env:
-          SQLITE_DATABASE: test
-          SQLITE_USER: root
-          SQLITE_PASSWORD: root
+          DB_DATABASE: test
+          DB_USER: root
+          DB_PASSWORD: root
           MYSQL_ROOT_PASSWORD: root
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
@@ -26,8 +26,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Copy .env.test.local
       run: cp .env.test .env
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -39,6 +41,9 @@ jobs:
         cmd: install
 
     - name: Init database
+      run: mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+
+    - name: Update database
       uses: borales/actions-yarn@v4
       with:
         cmd: update-db
