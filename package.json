@@ -12,6 +12,7 @@
     },
     "scripts": {
         "start": "node --require dotenv/config 10-bit.js",
-        "deploy": "node --require dotenv/config ./deploy-commands.js"
+        "deploy": "node --require dotenv/config ./deploy-commands.js",
+        "update-db": "node --require dotenv/config ./db-init.js"
     }
 }
