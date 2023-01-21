@@ -7,5 +7,6 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, pr
 });
 
 const Settings = require('./models/Settings')(sequelize, Sequelize.DataTypes);
+const Member   = require('./models/Member')(sequelize, Sequelize.DataTypes);
 
-module.exports = { Settings };
+module.exports = { Settings, Member };

@@ -7,6 +7,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, pr
 });
 
 require('./models/Settings')(sequelize, Sequelize.DataTypes);
+require('./models/Member')(sequelize, Sequelize.DataTypes);
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 
