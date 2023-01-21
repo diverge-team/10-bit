@@ -10,7 +10,7 @@ module.exports = {
         const rulesEmbeds = [
             new EmbedBuilder()
                 .setTitle(':wave: Bienvenue sur le serveur Diverge !')
-                .setDescription('Pour accéder aux différents salons du Discord, tu dois lire et accepter l\'ensemble des règles ci-dessous.')
+                .setDescription('Serveur de [DRV] Diverge, communauté de joueur·euses et d\'ami·es d\'Ori / fnev.eu. Pour accéder aux différents salons du Discord, tu dois lire et accepter l\'ensemble des règles ci-dessous.')
             ,
             new EmbedBuilder()
                 .setTitle(':one: Discrimination')
