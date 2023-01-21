@@ -1,0 +1,46 @@
+name: Node.js CI
+
+on:
+    push:
+        branches: [ "main" ]
+    pull_request:
+        branches: [ "main" ]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+    services:
+        mariadb:
+            image: mariadb:latest
+            ports:
+                - 3306:3306
+            env:
+                DB_DATABASE: test
+                DB_USER: root
+                DB_PASSWORD: root
+                MYSQL_ROOT_PASSWORD: root
+
+            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+        strategy:
+            matrix:
+                node-version: [16.x, 18.x]
+
+    steps:
+        - uses: actions/checkout@v3
+        - name: Copy .env.test.local
+          run: cp .env.test .env
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v3
+          with:
+              node-version: ${{ matrix.node-version }}
+
+        - name: Run install
+          uses: borales/actions-yarn@v4
+          with:
+              cmd: install
+
+        - name: Init database
+          uses: borales/actions-yarn@v4
+          with:
+              cmd: update-db
