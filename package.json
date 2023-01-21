@@ -13,5 +13,9 @@
     "scripts": {
         "start": "node --require dotenv/config 10-bit.js",
         "deploy": "node --require dotenv/config ./deploy-commands.js"
+    },
+    "volta": {
+        "node": "16.18.1",
+        "yarn": "1.22.19"
     }
 }
