@@ -45,7 +45,7 @@ module.exports = {
                     '**:recycle: Changements des règles**\r\n' +
                     'Les règles sont susceptibles d\'évoluer au fil du temps. Une annonce sera faite dans <#' + process.env.ANNOUNCEMENTS_CHANNEL_ID + '> si cela se produit.\r\n\r\n' +
                     '**:ticket: Rôles**\r\n' +
-                    'Différents rôles te sont disponibles, que ce soit pour te débloquer l\'accès à certains salons, ou pour personnaliser ton profil. Ces rôles sont acquérables dans le salon <#1066148717331218472>, en réagissant aux différents messages de notre bien aimé bot <@1064677183626424330>.\r\n' +
+                    'Différents rôles te sont disponibles, que ce soit pour te débloquer l\'accès à certains salons, ou pour personnaliser ton profil. Ces rôles sont acquérables dans le salon <#1066148717331218472>, en réagissant aux différents messages de notre bien aimé bot <@' + process.env.CLIENT_ID + '>.\r\n' +
                     '\r\n' +
                     '**Pour approuver ces règles, clique sur la réaction ci-dessous. Nous te souhaitons de bons moments parmi nous !**'
                 )
