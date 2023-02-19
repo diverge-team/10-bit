@@ -13,11 +13,11 @@ module.exports = {
         let member = await Member.findOne({where: {user_id: message.author.id}});
 
         if (member) {
-            await Member.update({nbMessages: member.nbMessages + 1, xp: member.xp + (Math.floor(Math.random() * (6 - 1) + 1))}, { where: { id: member.id}});
+            await Member.update({nb_messages: member.nb_messages + 1, xp: member.xp + (Math.floor(Math.random() * (6 - 1) + 1))}, { where: { id: member.id}});
         } else {
             await Member.create({
                 user_id: message.author.id,
-                nbMessages: 1,
+                nb_messages: 1,
                 xp: Math.floor(Math.random() * (6 - 1) + 1)
             })
         }
