@@ -15,7 +15,7 @@ module.exports = {
                 const rulesMessageSettings = await Settings.findOne({where: {name: 'rules_message_id'}});
 
                 if (rulesMessageSettings && rulesMessageSettings.value === reaction.message.id) {
-                    await member.roles.add(await guild.roles.fetch(process.env.DEFAULT_ROLE_ID));
+                    await member.roles.remove(await guild.roles.fetch(process.env.DEFAULT_ROLE_ID));
 
                     return;
                 }
