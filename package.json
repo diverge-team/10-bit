@@ -1,22 +1,26 @@
 {
     "name": "10-bit",
-    "packageManager": "yarn@4.0.0-rc.35",
+    "version": "2.0.0",
+    "private": true,
+    "description": "Bot Discord pour le serveur Diverge",
+    "main": "src/index.js",
     "dependencies": {
-        "discord.js": "^14.7.1",
-        "dotenv": "^16.0.3",
-        "mariadb": "^3.0.2",
-        "sequelize": "^6.28.0"
+        "discord.js": "^14.25.1",
+        "dotenv": "^17.2.3",
+        "mariadb": "^3.4.5",
+        "sequelize": "^6.37.7"
     },
     "devDependencies": {
-        "eslint": "^8.32.0"
+        "eslint": "^9.39.2"
     },
     "scripts": {
-        "start": "node --require dotenv/config 10-bit.js",
-        "deploy": "node --require dotenv/config ./deploy-commands.js",
-        "update-db": "node --require dotenv/config ./db-init.js"
+        "start": "node --require dotenv/config src/index.js",
+        "deploy": "node --require dotenv/config src/deploy-commands.js",
+        "db:init": "node --require dotenv/config src/db-init.js",
+        "db:reset": "node --require dotenv/config src/db-init.js --force"
     },
     "volta": {
-        "node": "16.18.1",
-        "yarn": "1.22.19"
+        "node": "24.13.0",
+        "yarn": "1.22.22"
     }
 }
