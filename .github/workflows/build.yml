@@ -1,46 +1,23 @@
-name: Node.js CI
+name: Lint
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
-    services:
-      mariadb:
-        image: mariadb:latest
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: test
-          MYSQL_USER: test
-          MYSQL_PASSWORD: test
-          MYSQL_ROOT_PASSWORD: root
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Copy .env.test.local
-      run: cp .env.test .env
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
-    - name: Run install
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: install
-
-    - name: Update database
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: update-db
+      - name: Run ESLint
+        run: yarn eslint src/

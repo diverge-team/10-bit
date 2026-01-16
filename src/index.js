@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, ActivityType, GatewayIntentBits, Partials } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 
 const token = process.env.DISCORD_TOKEN;
 

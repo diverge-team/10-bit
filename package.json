@@ -11,13 +11,15 @@
         "sequelize": "^6.37.7"
     },
     "devDependencies": {
+        "@eslint/js": "^9.39.2",
         "eslint": "^9.39.2"
     },
     "scripts": {
         "start": "node --require dotenv/config src/index.js",
         "deploy": "node --require dotenv/config src/deploy-commands.js",
         "db:init": "node --require dotenv/config src/db-init.js",
-        "db:reset": "node --require dotenv/config src/db-init.js --force"
+        "db:reset": "node --require dotenv/config src/db-init.js --force",
+        "lint": "eslint src/"
     },
     "volta": {
         "node": "24.13.0",
