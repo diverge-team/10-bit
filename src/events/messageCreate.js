@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, EmbedBuilder } = require('discord.js');
 const { Member } = require('../database');
 
 const FEUR_VARIANTS = [
@@ -70,7 +70,11 @@ module.exports = {
         // Alyxal response (5% chance)
         if (message.author.id === process.env.ALYXAL_USER_ID && Math.random() < 0.05) {
             const gif = pickRandom(NATA_GIFS);
-            await message.reply(`Tu as toujours l'air occupée, Chasseuse...\n${gif}`);
+            const embed = new EmbedBuilder()
+                .setDescription('Tu as toujours l\'air occupée, Chasseuse...')
+                .setImage(gif)
+                .setColor(0x5865F2);
+            await message.reply({ embeds: [embed] });
         }
     },
 };
