@@ -35,11 +35,13 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         timestamps: true,
         hooks: {
-            beforeCreate: async (ticket) => {
-                const maxTicket = await sequelize.models.tickets.findOne({
-                    order: [['ticket_number', 'DESC']],
-                });
-                ticket.ticket_number = maxTicket ? maxTicket.ticket_number + 1 : 1;
+            beforeValidate: async (ticket) => {
+                if (!ticket.ticket_number) {
+                    const maxTicket = await sequelize.models.tickets.findOne({
+                        order: [['ticket_number', 'DESC']],
+                    });
+                    ticket.ticket_number = maxTicket ? maxTicket.ticket_number + 1 : 1;
+                }
             },
         },
     });
