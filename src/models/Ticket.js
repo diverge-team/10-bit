@@ -1,8 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('tickets', {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
         ticket_number: {
             type: DataTypes.INTEGER,
-            autoIncrement: true,
             unique: true,
             allowNull: false,
         },
@@ -30,5 +34,13 @@ module.exports = (sequelize, DataTypes) => {
         },
     }, {
         timestamps: true,
+        hooks: {
+            beforeCreate: async (ticket) => {
+                const maxTicket = await sequelize.models.tickets.findOne({
+                    order: [['ticket_number', 'DESC']],
+                });
+                ticket.ticket_number = maxTicket ? maxTicket.ticket_number + 1 : 1;
+            },
+        },
     });
 };
