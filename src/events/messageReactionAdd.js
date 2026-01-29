@@ -1,5 +1,5 @@
 const { Events } = require('discord.js');
-const { Settings } = require('../database');
+const { Settings, Ticket } = require('../database');
 
 module.exports = {
     name: Events.MessageReactionAdd,
@@ -10,6 +10,32 @@ module.exports = {
 
         const guild = await reaction.message.guild.fetch();
         const member = await guild.members.fetch(user.id);
+
+        // Handle ticket satisfaction feedback
+        const ticket = await Ticket.findOne({
+            where: { resolution_message_id: reaction.message.id },
+        });
+
+        if (ticket && user.id === ticket.user_id) {
+            const emoji = reaction.emoji.name;
+
+            if (emoji === '👍' || emoji === '👎') {
+                // Only record if not already recorded
+                if (ticket.satisfaction === null) {
+                    ticket.satisfaction = emoji === '👍';
+                    await ticket.save();
+
+                    const ticketNumberFormatted = `#${String(ticket.ticket_number).padStart(4, '0')}`;
+                    const satisfactionText = emoji === '👍' ? 'satisfait' : 'insatisfait';
+
+                    await reaction.message.channel.send(
+                        `📊 Merci pour ton retour <@${user.id}> ! Tu es **${satisfactionText}** du traitement du ticket ${ticketNumberFormatted}.`
+                    );
+                }
+                return;
+            }
+        }
+
         const colorsMessageSettings = await Settings.findOne({ where: { name: 'colors_message_id' } });
 
         // Handle rules acceptance

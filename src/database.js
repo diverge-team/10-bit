@@ -14,5 +14,6 @@ const sequelize = new Sequelize(
 
 const Settings = require('./models/Settings')(sequelize, Sequelize.DataTypes);
 const Member = require('./models/Member')(sequelize, Sequelize.DataTypes);
+const Ticket = require('./models/Ticket')(sequelize, Sequelize.DataTypes);
 
-module.exports = { sequelize, Settings, Member };
+module.exports = { sequelize, Settings, Member, Ticket };
