@@ -1,6 +1,7 @@
 const { Events, ActivityType, EmbedBuilder } = require('discord.js');
 const cron = require('node-cron');
 const { getNicholasTraveler, getNicholasSandford } = require('../helpers/nicholasScraper');
+const { generateQuiz, createQuizMessage } = require('../helpers/isaacQuiz');
 
 const STATUSES = [
     'Pourquoi ? Pour feur.',
@@ -109,6 +110,33 @@ async function postNicholasSandford(client) {
 }
 
 /**
+ * Posts the daily Isaac quiz
+ */
+async function postIsaacQuiz(client) {
+    try {
+        const channelId = process.env.QUIZ_CHANNEL_ID;
+        if (!channelId) {
+            console.log('QUIZ_CHANNEL_ID not configured, skipping Isaac quiz');
+            return;
+        }
+
+        const channel = await client.channels.fetch(channelId);
+        if (!channel) {
+            console.error('Quiz channel not found');
+            return;
+        }
+
+        const quiz = generateQuiz();
+        const { embed, row } = createQuizMessage(quiz);
+
+        await channel.send({ embeds: [embed], components: [row] });
+        console.log('Posted Isaac daily quiz');
+    } catch (error) {
+        console.error('Error posting Isaac quiz:', error);
+    }
+}
+
+/**
  * Setup cron jobs for Nicholas posts
  */
 function setupNicholasCronJobs(client) {
@@ -131,6 +159,21 @@ function setupNicholasCronJobs(client) {
     console.log('Nicholas cron jobs scheduled');
 }
 
+/**
+ * Setup cron job for Isaac quiz
+ */
+function setupIsaacQuizCronJob(client) {
+    // Every day at 8:00 AM Paris time
+    cron.schedule('0 7 * * *', () => {
+        console.log('Running Isaac quiz cron job');
+        postIsaacQuiz(client);
+    }, {
+        timezone: 'Europe/Paris',
+    });
+
+    console.log('Isaac quiz cron job scheduled (8:00 AM Europe/Paris)');
+}
+
 module.exports = {
     name: Events.ClientReady,
     once: true,
@@ -142,5 +185,8 @@ module.exports = {
 
         // Setup Nicholas auto-posting
         setupNicholasCronJobs(client);
+
+        // Setup Isaac quiz
+        setupIsaacQuizCronJob(client);
     },
 };
