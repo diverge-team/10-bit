@@ -68,7 +68,7 @@ module.exports = {
         }
 
         // Alyxal response (5% chance)
-        if (message.author.id === process.env.ALYXAL_USER_ID && Math.random() < 0.05) {
+        if (message.author.id === process.env.ALYXAL_USER_ID && Math.random() < 0.2) {
             const gif = pickRandom(NATA_GIFS);
             const embed = new EmbedBuilder()
                 .setDescription('Tu as toujours l\'air occupée, Chasseuse...')
